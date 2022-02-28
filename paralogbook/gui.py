@@ -5,6 +5,7 @@ import typer
 import logging
 import sys
 
+import paralogbook as plb
 
 LOG = logging.getLogger(__name__)
 APP = typer.Typer(name="gui", help="Graphical user interface")
@@ -14,6 +15,8 @@ class Window(MAIN_WIN_BASE, MAIN_WIN_UI):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+
+        self.tableView.setModel(plb.logbook.LogBook([]))
 
 @APP.command(help="Start the GUI")
 def start():
