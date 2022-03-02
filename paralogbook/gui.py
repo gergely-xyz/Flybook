@@ -15,8 +15,8 @@ class Window(MAIN_WIN_BASE, MAIN_WIN_UI):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
-
-        self.tableView.setModel(plb.logbook.LogBook([]))
+        model = plb.logbook.LogBookTable([])
+        self.tableView.setModel(model)
 
 @APP.command(help="Start the GUI")
 def start():

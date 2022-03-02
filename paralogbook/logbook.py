@@ -1,9 +1,20 @@
 from PySide6.QtCore import QAbstractTableModel
+from paralogbook.logentry import LogEntry
 
-class LogBook(QAbstractTableModel):
+
+class LogBook():
+    def __init__(self, logs: list[LogEntry]):
+        self.records = logs
+    
+    @classmethod
+    def load_from_folder_of_igc(cls, folder_path):
+        raise NotImplementedError()
+
+class LogBookTable(LogBook, QAbstractTableModel):
     def __init__(self, flightlogs, parent=None):
-        super().__init__(parent)
-        self.records = flightlogs
+        LogBook.__init__(self, flightlogs)
+        QAbstractTableModel.__init__(self, parent)
+
         self.headers = ["Date", "Pilot", "Glider"]
 
     def columnCount(self, parent):
