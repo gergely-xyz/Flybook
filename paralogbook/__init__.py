@@ -5,6 +5,8 @@ import appdirs
 
 import paralogbook.gui
 import paralogbook.logbook
+import paralogbook.logentry
+import paralogbook.igc
 
 __author__ = "gergely-xyz"
 
