@@ -15,26 +15,21 @@ class Igc:
     site: str    
     glider: str
     date: datetime.date
-    flight_num: int
+    flight_number: int
     records: list[BRecord] = []
-    flight_time: datetime.timedelta
 
     def __init__(self, filename):
         with open(filename, 'r') as file:
             for line in file:
                 self.process_line(line)
 
-        flight_start = datetime.datetime.combine(self.date, self.records[0].time)
-        flight_end = datetime.datetime.combine(self.date, self.records[-1].time)
-        self.flight_time = flight_end-flight_start
 
     def __str__(self):
         igc_string = f"Pilot: {self.pilot}\n"
         igc_string += f"Site: {self.site}\n"
         igc_string += f"Site: {self.glider}\n"
         igc_string += f"Date: {self.date}\n"
-        igc_string += f"Flight: {self.flight_num}\n"
-        igc_string += f"Length: {self.flight_time}\n"
+        igc_string += f"Flight #: {self.flight_number}\n"
 
         return igc_string
 
@@ -114,7 +109,7 @@ class Igc:
             data = line.split(':')[1].strip().split(',')
             date_str = data[0]
             self.date = datetime.date(int(f"20{date_str[4:6]}"), int(date_str[2:4]), int(date_str[0:2]))
-            self.flight_num = int(data[1])
+            self.flight_number = int(data[1])
         if line[0] == 'B':
             b_record = BRecord(
                 Igc.decode_time(line[1:7]),
