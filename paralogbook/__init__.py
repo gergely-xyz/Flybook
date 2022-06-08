@@ -3,7 +3,7 @@ import os
 
 import appdirs
 
-import paralogbook.gui
+# import paralogbook.gui
 import paralogbook.logbook
 import paralogbook.logentry
 import paralogbook.igc
