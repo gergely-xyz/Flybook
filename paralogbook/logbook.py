@@ -7,6 +7,13 @@ class LogBook():
     def __init__(self, logs: list[LogEntry]):
         self.records = logs
     
+    def __str__(self):
+        logbook_string = f"Logbook with {len(self.records)} entries.\n"
+        # for r in self.records:
+        #     logbook_string += str(r) + '\n'
+        
+        return logbook_string
+
     @classmethod
     def from_igc_folder(cls, folder_path):
         logs = []
