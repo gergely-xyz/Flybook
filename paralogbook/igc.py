@@ -16,13 +16,15 @@ class Igc:
     glider: str
     date: datetime.date
     flight_number: int
-    records: list[BRecord] = []
+    records: list[BRecord]
 
     def __init__(self, filename):
+        self.records = []
         with open(filename, 'r') as file:
             for line in file:
                 self.process_line(line)
 
+        self.records.sort(key=lambda r: r.time)
 
     def __str__(self):
         igc_string = f"Pilot: {self.pilot}\n"
@@ -120,11 +122,3 @@ class Igc:
                 int(line[30:35]),
                 )
             self.records.append(b_record)
-
-    
-if __name__ == "__main__":
-    i = Igc("/home/gery/Documents/Tracklogs/2022-02-12-XCT-GHO-01.igc")
-    print(i)
-
-    # for c, r in enumerate(i.records):
-    #     print(c, r)
