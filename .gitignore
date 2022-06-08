@@ -107,3 +107,4 @@ lib64
 
 # mypy
 .mypy_cache/
+tags
