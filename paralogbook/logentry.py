@@ -1,4 +1,4 @@
-import paralogbook as plb
+import flybook as fb
 
 import reverse_geocode
 
@@ -37,7 +37,7 @@ class LogEntry():
 
     @classmethod
     def from_igc_file(cls, filename):
-        igc = plb.igc.Igc(filename)
+        igc = fb.igc.Igc(filename)
         
         flight_start = datetime.datetime.combine(igc.date, igc.records[0].time)
         flight_end = datetime.datetime.combine(igc.date, igc.records[-1].time)

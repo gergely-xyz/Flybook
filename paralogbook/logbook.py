@@ -1,5 +1,5 @@
 from PySide6.QtCore import QAbstractTableModel
-from paralogbook.logentry import LogEntry
+from flybook.logentry import LogEntry
 from glob import glob
 import os
 

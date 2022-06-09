@@ -3,10 +3,10 @@ import os
 
 import appdirs
 
-# import paralogbook.gui
-import paralogbook.logbook
-import paralogbook.logentry
-import paralogbook.igc
+# import flybook.gui
+import flybook.logbook
+import flybook.logentry
+import flybook.igc
 
 __author__ = "gergely-xyz"
 
@@ -14,7 +14,7 @@ DIRS = appdirs.AppDirs(__name__, __author__)
 CONF_DIR = DIRS.user_config_dir
 CONF_FILE = os.path.join(CONF_DIR, "config.ini")
 LOG_DIR = DIRS.user_log_dir
-LOG_FILE = os.path.join(LOG_DIR, "paralogbook.log")
+LOG_FILE = os.path.join(LOG_DIR, "flybook.log")
 LOG_FORMAT = "%(asctime)s:%(levelname)s:%(name)s:%(message)s"
 DATA_DIR = DIRS.user_data_dir
 CACHE_DIR = DIRS.user_cache_dir

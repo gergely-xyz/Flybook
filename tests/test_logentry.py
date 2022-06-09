@@ -1,9 +1,9 @@
-import paralogbook as plb
+import flybook as fb
 from datetime import date
 from datetime import timedelta
 
 def test_logentry_from_file():
-    entry = plb.logentry.LogEntry.from_igc_file("tests/res/2022-02-12-XCT-GHO-01.igc")
+    entry = fb.logentry.LogEntry.from_igc_file("tests/res/2022-02-12-XCT-GHO-01.igc")
     print(entry)
     assert entry.pilot == "Gergely Horváth"
     assert entry.site.name == "?"
