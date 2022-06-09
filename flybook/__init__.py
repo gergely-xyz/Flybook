@@ -1,15 +1,10 @@
 import logging
 import os
-
 import appdirs
-
-# import flybook.gui
-import flybook.logbook
-import flybook.logentry
-import flybook.igc
 
 __author__ = "gergely-xyz"
 
+# DEBUG = False
 DIRS = appdirs.AppDirs(__name__, __author__)
 CONF_DIR = DIRS.user_config_dir
 CONF_FILE = os.path.join(CONF_DIR, "config.ini")
@@ -25,9 +20,7 @@ os.makedirs(LOG_DIR, exist_ok=True)
 os.makedirs(DATA_DIR, exist_ok=True)
 os.makedirs(CACHE_DIR, exist_ok=True)
 
-
 class Logger(logging.getLoggerClass()):
-
     formatter = logging.Formatter(LOG_FORMAT)
     file_handler = logging.FileHandler(LOG_FILE)
     file_handler.setLevel(logging.ERROR)
@@ -42,5 +35,10 @@ class Logger(logging.getLoggerClass()):
         self.addHandler(Logger.file_handler)
         self.addHandler(Logger.stream_handler)
 
-
 logging.setLoggerClass(Logger)
+
+# import flybook.gui
+import flybook.cli
+import flybook.logbook
+import flybook.logentry
+import flybook.igc
