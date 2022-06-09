@@ -1,4 +1,4 @@
-from paralogbook.igc import Igc
+from flybook.igc import Igc
 import datetime
 import glob
 
