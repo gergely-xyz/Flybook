@@ -12,6 +12,7 @@ import flybook as fb
 
 LOG = logging.getLogger(__name__)
 APP = typer.Typer()
+APP.add_typer(fb.config.APP)
 # APP.add_typer(fb.gui.APP)
 # APP.add_typer(fb.cli.APP)
 
@@ -31,7 +32,7 @@ def starred(stat_string):
 
 @APP.command(help="Show the logs stored in Flybook")
 def show():
-    lb = fb.logbook.LogBook.from_igc_folder("/home/gery/Documents/Tracklogs")
+    lb = fb.logbook.LogBook.from_igc_folder(fb.config.CONFIG["Settings"]["logdir"])
 
     table = Table(show_header=True, header_style="bold blue", title=f"Pilot: {lb.records[0].pilot}", show_footer=True)
     table.add_column("#", style="dim", justify="right")

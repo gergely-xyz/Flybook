@@ -38,7 +38,8 @@ class Logger(logging.getLoggerClass()):
 logging.setLoggerClass(Logger)
 
 # import flybook.gui
-import flybook.cli
+# import flybook.cli
 import flybook.logbook
 import flybook.logentry
 import flybook.igc
+import flybook.config
