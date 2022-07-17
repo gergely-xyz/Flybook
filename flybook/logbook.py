@@ -20,7 +20,16 @@ class LogBook():
         for igc_file in glob(os.path.join(folder_path, "*.igc")):
             logs.append(LogEntry.from_igc_file(igc_file))
                 
+        logs.sort(key=lambda x: (x.date, x.flight_number))
         return cls(logs)
+
+    @property
+    def highest_flight(self):
+        return max(self.records, key=lambda r: r.max_altitude)
+
+    @property
+    def longest_flight(self):
+        return max(self.records, key=lambda r: r.flight_time)
 
 class LogBookTable(LogBook, QAbstractTableModel):
     def __init__(self, flightlogs, parent=None):
