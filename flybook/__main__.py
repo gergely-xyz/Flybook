@@ -1,20 +1,63 @@
-import flybook as fb
-import typer
-
+import datetime
 import logging
 import os
+from glob import glob
+from importlib.metadata import metadata, version
 
-def main(debug: bool = typer.Option(False, "--debug", "-d", help="Print debug messages to stdout")):
-    if debug:
-        fb.Logger.stream_handler.setLevel(logging.DEBUG)
-        LOG.debug("Debug mode enabled")
+import typer
+from rich.console import Console
+from rich.table import Column, Table
+
+import flybook as fb
 
 LOG = logging.getLogger(__name__)
-APP = typer.Typer(callback=main)
+APP = typer.Typer()
 # APP.add_typer(fb.gui.APP)
-APP.add_typer(fb.cli.APP)
+# APP.add_typer(fb.cli.APP)
 
+@APP.callback() # invoke_without_command=True
+def main(verbose: bool = typer.Option(False, "--verbose", "-v", help="Print debug messages to stdout")):
+    if verbose:
+        fb.Logger.stream_handler.setLevel(logging.DEBUG)
+        LOG.debug("Verbose mode enabled")
+
+@APP.command(name="version", help="Print the version and exit")
+def fbversion():
+    print(metadata('flybook')["Name"], "version", version('flybook'))
+    exit()
+
+def starred(stat_string):
+    return f":star: [yellow][bold]{stat_string}[/bold][/yellow]"
+
+@APP.command(help="Show the logs stored in Flybook")
+def show():
+    lb = fb.logbook.LogBook.from_igc_folder("/home/gery/Documents/Tracklogs")
+
+    table = Table(show_header=True, header_style="bold blue", title=f"Pilot: {lb.records[0].pilot}", show_footer=True)
+    table.add_column("#", style="dim", justify="right")
+    table.add_column("Date & count", style="dim")
+    table.add_column("Glider")
+    table.add_column("Max GPS alt. (m)", justify="right")
+    
+    airtime = Column(header="Time", justify="right")
+    table.columns.append(airtime)
+
+    table.add_column("Site")
+
+    airtime_sum = datetime.timedelta()
+    for i, r in enumerate(lb.records):
+        date_str = f"{r.date} #{r.flight_number}"
+        altitude_str = starred(r.max_altitude) if r is lb.highest_flight else str(r.max_altitude)
+        airtime_str = starred(r.flight_time) if r is lb.longest_flight else str(r.flight_time)
+        sire_str = f"{r.site.coutry} - {r.site.name if r.site.name != '?' else r.site.nearest_city} "
+        table.add_row(str(i+1), date_str, r.glider, altitude_str, airtime_str, sire_str)
+
+        airtime_sum += r.flight_time
+
+    airtime.footer = f"Σ {airtime_sum}"
+    
+    console = Console()
+    console.print(table)
 
 if __name__ == "__main__":
     APP()
-
