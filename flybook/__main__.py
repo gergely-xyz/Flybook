@@ -37,6 +37,8 @@ def show():
     table = Table(show_header=True, header_style="bold blue", title=f"Pilot: {lb.records[0].pilot}", show_footer=True)
     table.add_column("#", style="dim", justify="right")
     table.add_column("Date & count", style="dim")
+    table.add_column("Takeoff", style="dim", justify="center")
+    table.add_column("Landing", style="dim", justify="center")
     table.add_column("Glider")
     table.add_column("Max GPS alt. (m)", justify="right")
     
@@ -48,10 +50,12 @@ def show():
     airtime_sum = datetime.timedelta()
     for i, r in enumerate(lb.records):
         date_str = f"{r.date} #{r.flight_number}"
+        takeoff_str = f"{r.takeoff_time:%H:%M}"
+        landing_str = f"{r.landing_time:%H:%M}"
         altitude_str = starred(r.max_altitude) if r is lb.highest_flight else str(r.max_altitude)
         airtime_str = starred(r.airtime) if r is lb.longest_flight else str(r.airtime)
         sire_str = f"{r.site.coutry} - {r.site.name if r.site.name != '?' else r.site.nearest_city} "
-        table.add_row(str(i+1), date_str, r.glider, altitude_str, airtime_str, sire_str)
+        table.add_row(str(i+1), date_str, takeoff_str, landing_str, r.glider, altitude_str, airtime_str, sire_str)
 
         airtime_sum += r.airtime
 
