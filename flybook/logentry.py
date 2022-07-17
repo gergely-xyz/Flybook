@@ -22,6 +22,8 @@ class LogEntry():
     glider: str
     date: datetime.date
     flight_number: int
+    takeoff_time: datetime.time
+    landing_time: datetime.time
     airtime: datetime.timedelta
     max_altitude: int
 
@@ -46,7 +48,7 @@ class LogEntry():
         location = reverse_geocode.get(start_cords)
         site = Site(igc.site, location["country"], location["country_code"], location["city"])
         max_altitude = max(igc.records, key=lambda r: r.gps_altitude).gps_altitude
-        return cls(igc.pilot, site, igc.glider, igc.date, igc.flight_number, flight_time, max_altitude)
+        return cls(igc.pilot, site, igc.glider, igc.date, igc.flight_number, flight_start, flight_end, flight_time, max_altitude)
 
     def save_to_file(self, filename):
         raise NotImplementedError()
