@@ -1,4 +1,3 @@
-from PySide6.QtCore import QAbstractTableModel
 from flybook.logentry import LogEntry
 from glob import glob
 import os
@@ -31,22 +30,3 @@ class LogBook():
     def longest_flight(self):
         return max(self.records, key=lambda r: r.airtime)
 
-class LogBookTable(LogBook, QAbstractTableModel):
-    def __init__(self, flightlogs, parent=None):
-        LogBook.__init__(self, flightlogs)
-        QAbstractTableModel.__init__(self, parent)
-
-        self.headers = ["Date", "Pilot", "Glider"]
-
-    def columnCount(self, parent):
-        """ Return the number of columns to be displayed. """
-        return len(self.headers)
-
-    def rowCount(self, parent):
-        """ Return the number of rows to be displayed. """
-        return len(self.records)
-
-if __name__ == "__main__":
-    lb = LogBook.from_igc_folder("/home/gery/Documents/Tracklogs")
-    for record in lb.records:
-        print(record.date)
