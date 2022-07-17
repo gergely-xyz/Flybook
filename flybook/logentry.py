@@ -22,7 +22,7 @@ class LogEntry():
     glider: str
     date: datetime.date
     flight_number: int
-    flight_time: datetime.timedelta
+    airtime: datetime.timedelta
     max_altitude: int
 
     def __str__(self):
@@ -31,7 +31,7 @@ class LogEntry():
         entry_string += f"On {self.date} at {self.site}\n"
         entry_string += f"Pilot: {self.pilot}\n"
         entry_string += f"Glider: {self.glider}\n"
-        entry_string += f"Air time: {self.flight_time}\n"
+        entry_string += f"Air time: {self.airtime}\n"
         return entry_string
 
     @classmethod

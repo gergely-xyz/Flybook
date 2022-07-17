@@ -49,11 +49,11 @@ def show():
     for i, r in enumerate(lb.records):
         date_str = f"{r.date} #{r.flight_number}"
         altitude_str = starred(r.max_altitude) if r is lb.highest_flight else str(r.max_altitude)
-        airtime_str = starred(r.flight_time) if r is lb.longest_flight else str(r.flight_time)
+        airtime_str = starred(r.airtime) if r is lb.longest_flight else str(r.airtime)
         sire_str = f"{r.site.coutry} - {r.site.name if r.site.name != '?' else r.site.nearest_city} "
         table.add_row(str(i+1), date_str, r.glider, altitude_str, airtime_str, sire_str)
 
-        airtime_sum += r.flight_time
+        airtime_sum += r.airtime
 
     airtime.footer = f"Σ {airtime_sum}"
     

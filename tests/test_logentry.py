@@ -13,4 +13,4 @@ def test_logentry_from_file():
     assert entry.date == date(2022, 2, 12)
     assert entry.flight_number == 1
     assert entry.glider == "NOVA Ion 3"
-    assert entry.flight_time == timedelta(seconds=546)
+    assert entry.airtime == timedelta(seconds=546)
