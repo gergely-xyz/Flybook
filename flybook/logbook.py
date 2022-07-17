@@ -29,7 +29,7 @@ class LogBook():
 
     @property
     def longest_flight(self):
-        return max(self.records, key=lambda r: r.flight_time)
+        return max(self.records, key=lambda r: r.airtime)
 
 class LogBookTable(LogBook, QAbstractTableModel):
     def __init__(self, flightlogs, parent=None):
