@@ -9,6 +9,7 @@ from rich.console import Console
 from rich.table import Column, Table
 
 import flybook as fb
+from geopy import distance
 
 LOG = logging.getLogger(__name__)
 APP = typer.Typer()
@@ -63,6 +64,38 @@ def show():
     
     console = Console()
     console.print(table)
+
+@APP.command(help="Convert the selected log entry to video captions")
+def convert(id: int):
+    lb = fb.logbook.LogBook.from_igc_folder(fb.config.CONFIG["Settings"]["logdir"])
+    rec = lb.records[id-1]
+    r0 = rec.igc.records[0]
+    date = rec.igc.date
+    for i, r in enumerate(rec.igc.records):
+        r_dt = datetime.datetime.combine(date, r.time)
+        r0_dt =datetime.datetime.combine(date, r0.time)
+        since_start = r_dt - r0_dt
+
+        if i > 0:
+            print(i)
+
+            prev_r = rec.igc.records[i-1]
+            prev_r_dt =datetime.datetime.combine(date, prev_r.time)
+            prev_since_start = prev_r_dt - r0_dt
+            print(prev_since_start, "-->", since_start)
+
+            delta_h = r.gps_altitude - prev_r.gps_altitude
+            # delta_h = r.preassure_altitude - prev_r.preassure_altitude
+            delta_t = since_start - prev_since_start
+
+            c = (r.latitude, r.longitude)
+            c_prev = (prev_r.latitude, prev_r.longitude)
+            delta_xy = distance.distance(c_prev, c).km
+            vh = delta_xy/(delta_t.seconds/3600)
+
+            print(f"Hpr={r.preassure_altitude}m", f"Hgps={r.gps_altitude}m", f"dHgps={delta_h/delta_t.seconds:.0f}m/s", f"V={vh:.2f}km/h", sep=" | ")
+
+            print()
 
 if __name__ == "__main__":
     APP()
